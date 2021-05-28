@@ -1,30 +1,37 @@
-import React from 'react'
-import { useState } from 'react';
+import React from "react";
+import { useState } from "react";
+import ProgessBar from "./ProgessBar";
 
 const UploadForm = () => {
-    const [file, setFile] = useState(null);
-    const [error, setError] =useState(null);
+  const [file, setFile] = useState(null);
+  const [error, setError] = useState(null);
 
-    const types = ["image/png","image/jpeg", "image/jpg"]
-    const handleChange =(e)=>{
-        let selected = e.target.files[0];
-            console.log(selected)
-         if( selected && types.includes(selected.type)){
-            setFile(selected)
-             setError('')   
-         }else{
-             setFile(null)
-             setError("Please select an image file (png, jpg)")
-         }
+  const types = ["image/png", "image/jpeg", "image/jpg"];
+
+  const handleChange = (e) => {
+    let selected = e.target.files[0];
+
+    if (selected && types.includes(selected.type)) {
+      setFile(selected);
+      setError("");
+    } else {
+      setFile(null);
+      setError("Please select an image file (png, jpg)");
     }
-    return (
-        <form>
-            <input type="file" onChange={handleChange} />
-            <div className="output">
-                 {error && (<div className="error">{error}</div>)}
-            </div>
-        </form>
-    )
-}
+  };
+  return (
+    <form>
+      <label>
+        <input type="file" onChange={handleChange} />
+        <span>+</span>
+      </label>
+      <div className="output">
+        {error && <div className="error">{error}</div>}
+        {file && <div>{file.name}</div>}
+        {file && <ProgessBar file={file} setFile={setFile} />}
+      </div>
+    </form>
+  );
+};
 
-export default UploadForm
+export default UploadForm;
